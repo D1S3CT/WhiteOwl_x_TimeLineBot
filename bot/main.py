@@ -4,14 +4,20 @@
 Содержит логику инициализации и запуска бота.
 """
 
-from telegram.ext import Application, CommandHandler, MessageHandler, filters
+from telegram.ext import Application, CommandHandler, CallbackQueryHandler
 from config.settings import TELEGRAM_BOT_TOKEN
-from bot.handlers.welcome_handler import welcome_new_user
+from bot.handlers.welcome_handler import show_welcome_message, show_main_menu
+from bot.handlers.help_handler import show_help_message
+from bot.handlers.navigation_handler import (
+    handle_find_master,
+    handle_my_appointments,
+    handle_become_master
+)
 
 
 def setup_handlers(application: Application) -> None:
     """
-    Регистрирует все обработчики команд и сообщений.
+    Регистрирует все обработчики команд и callback-запросов.
 
     Args:
         application (Application): Объект приложения бота
@@ -19,11 +25,15 @@ def setup_handlers(application: Application) -> None:
     Returns:
         None
     """
-    # Обработчик команды /start
-    application.add_handler(CommandHandler("start", welcome_new_user))
+    # Обработчики команд
+    application.add_handler(CommandHandler("start", show_welcome_message))
 
-    # Обработчик первого сообщения от нового пользователя
-    application.add_handler(MessageHandler(filters.TEXT & filters.ChatType.PRIVATE, welcome_new_user))
+    # Обработчики callback-запросов
+    application.add_handler(CallbackQueryHandler(show_help_message, pattern="^help$"))
+    application.add_handler(CallbackQueryHandler(show_main_menu, pattern="^back_to_main$"))
+    application.add_handler(CallbackQueryHandler(handle_find_master, pattern="^find_master$"))
+    application.add_handler(CallbackQueryHandler(handle_my_appointments, pattern="^my_appointments$"))
+    application.add_handler(CallbackQueryHandler(handle_become_master, pattern="^become_master$"))
 
 
 def create_bot_application() -> Application:
