@@ -4,14 +4,19 @@
 Содержит логику инициализации и запуска бота.
 """
 
-from telegram.ext import Application, CommandHandler, CallbackQueryHandler
+from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters
 from config.settings import TELEGRAM_BOT_TOKEN
 from bot.handlers.welcome_handler import show_welcome_message, show_main_menu
 from bot.handlers.help_handler import show_help_message
-from bot.handlers.navigation_handler import (
-    handle_find_master,
-    handle_my_appointments,
-    handle_become_master
+from bot.handlers.master_handler import show_become_master_options
+from bot.handlers.registration_handler import (
+    show_registration_benefits,
+    start_master_registration_process,
+    handle_terms_acceptance,
+    handle_terms_decline,
+    return_to_main_menu_from_registration,
+    return_to_terms_from_registration,
+    handle_full_name_input
 )
 
 
@@ -28,12 +33,21 @@ def setup_handlers(application: Application) -> None:
     # Обработчики команд
     application.add_handler(CommandHandler("start", show_welcome_message))
 
-    # Обработчики callback-запросов
+    # Обработчики callback-запросов главного меню
     application.add_handler(CallbackQueryHandler(show_help_message, pattern="^help$"))
     application.add_handler(CallbackQueryHandler(show_main_menu, pattern="^back_to_main$"))
-    application.add_handler(CallbackQueryHandler(handle_find_master, pattern="^find_master$"))
-    application.add_handler(CallbackQueryHandler(handle_my_appointments, pattern="^my_appointments$"))
-    application.add_handler(CallbackQueryHandler(handle_become_master, pattern="^become_master$"))
+    application.add_handler(CallbackQueryHandler(show_become_master_options, pattern="^become_master$"))
+
+    # Обработчики регистрации мастера
+    application.add_handler(CallbackQueryHandler(show_registration_benefits, pattern="^become_master$"))
+    application.add_handler(CallbackQueryHandler(start_master_registration_process, pattern="^start_master_registration$"))
+    application.add_handler(CallbackQueryHandler(handle_terms_acceptance, pattern="^accept_terms$"))
+    application.add_handler(CallbackQueryHandler(handle_terms_decline, pattern="^decline_terms$"))
+    application.add_handler(CallbackQueryHandler(return_to_main_menu_from_registration, pattern="^back_to_main_from_registration$"))
+    application.add_handler(CallbackQueryHandler(return_to_terms_from_registration, pattern="^back_to_terms$"))
+
+    # Обработчик текстовых сообщений для ввода ФИО
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_full_name_input))
 
 
 def create_bot_application() -> Application:

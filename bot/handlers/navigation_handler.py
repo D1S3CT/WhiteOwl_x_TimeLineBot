@@ -40,21 +40,3 @@ async def handle_my_appointments(update: Update, context: ContextTypes.DEFAULT_T
         reply_markup=update.callback_query.message.reply_markup
     )
     await update.callback_query.answer()
-
-
-async def handle_become_master(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """
-    Обработчик нажатия на кнопку "Стать мастером".
-
-    Args:
-        update (Update): Объект обновления от Telegram API
-        context (ContextTypes.DEFAULT_TYPE): Контекст выполнения команды
-
-    Returns:
-        None
-    """
-    await update.callback_query.message.edit_text(
-        "Функция регистрации мастеров пока в разработке.",
-        reply_markup=update.callback_query.message.reply_markup
-    )
-    await update.callback_query.answer()
