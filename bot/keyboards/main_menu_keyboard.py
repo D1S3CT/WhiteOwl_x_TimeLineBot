@@ -15,12 +15,12 @@ def get_main_menu_keyboard() -> InlineKeyboardMarkup:
     # Располагаем кнопки в линию (по 2 в ряд)
     keyboard = [
         [
-            InlineKeyboardButton("🔍 Найти мастера", callback_data="find_master"),
-            InlineKeyboardButton("📅 Мои записи", callback_data="my_appointments")
+            InlineKeyboardButton("Найти мастера", callback_data="find_master"),
+            InlineKeyboardButton("Мои записи", callback_data="my_appointments")
         ],
         [
-            InlineKeyboardButton("✨ Стать мастером", callback_data="become_master"),
-            InlineKeyboardButton("❓ Помощь", callback_data="help")
+            InlineKeyboardButton("Стать мастером", callback_data="become_master"),
+            InlineKeyboardButton("Помощь", callback_data="help")
         ]
     ]
     return InlineKeyboardMarkup(keyboard)

@@ -8,22 +8,10 @@ from bot.keyboards.main_menu_keyboard import get_main_menu_keyboard
 
 
 async def show_welcome_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """
-    Отправляет приветственное сообщение с главным меню.
-
-    Args:
-        update (Update): Объект обновления от Telegram API
-        context (ContextTypes.DEFAULT_TYPE): Контекст выполнения команды
-
-    Returns:
-        None
-    """
     keyboard = get_main_menu_keyboard()
 
     welcome_text = (
-        "🌟 Добро пожаловать в TimeLineBot! 🌟\n\n"
-        "Я помогу вам найти лучшего мастера или стать мастером самому!\n\n"
-        "Выберите действие ниже 👇"
+        "Добро пожаловать! Чем могу помочь?"
     )
 
     if update.message:
@@ -40,22 +28,10 @@ async def show_welcome_message(update: Update, context: ContextTypes.DEFAULT_TYP
 
 
 async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """
-    Показывает главное меню (используется для возврата из других разделов).
-
-    Args:
-        update (Update): Объект обновления от Telegram API
-        context (ContextTypes.DEFAULT_TYPE): Контекст выполнения команды
-
-    Returns:
-        None
-    """
     keyboard = get_main_menu_keyboard()
 
     welcome_text = (
-        "🌟 Добро пожаловать в TimeLineBot! 🌟\n\n"
-        "Я помогу вам найти лучшего мастера или стать мастером самому!\n\n"
-        "Выберите действие ниже 👇"
+        "Добро пожаловать! Чем могу помочь?"
     )
 
     await update.callback_query.message.edit_text(

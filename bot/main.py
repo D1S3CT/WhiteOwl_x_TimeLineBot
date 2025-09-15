@@ -15,7 +15,9 @@ from bot.handlers.registration_handler import (
     handle_terms_decline,
     return_to_main_menu_from_registration,
     return_to_terms_from_registration,
-    handle_full_name_input
+    handle_full_name_input,
+    handle_contact_input,
+    return_to_full_name_input
 )
 
 
@@ -43,9 +45,19 @@ def setup_handlers(application: Application) -> None:
     application.add_handler(CallbackQueryHandler(handle_terms_decline, pattern="^decline_terms$"))
     application.add_handler(CallbackQueryHandler(return_to_main_menu_from_registration, pattern="^back_to_main_from_registration$"))
     application.add_handler(CallbackQueryHandler(return_to_terms_from_registration, pattern="^back_to_terms$"))
+    application.add_handler(CallbackQueryHandler(return_to_full_name_input, pattern="^back_to_full_name_input$"))
 
-    # Обработчик текстовых сообщений для ввода ФИО
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_full_name_input))
+    # ОДИН обработчик для всех текстовых сообщений - он сам разберется что делать
+    application.add_handler(MessageHandler(
+        filters.TEXT & ~filters.COMMAND,
+        handle_full_name_input
+    ))
+
+    # ОДИН обработчик для контактов и специальных текстов
+    application.add_handler(MessageHandler(
+        (filters.CONTACT | (filters.TEXT & filters.Regex("⬅️ Назад"))) & ~filters.COMMAND,
+        handle_contact_input
+    ))
 
 
 def create_bot_application() -> Application:
