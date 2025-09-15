@@ -13,7 +13,7 @@ def get_help_keyboard() -> InlineKeyboardMarkup:
         InlineKeyboardMarkup: Inline-клавиатура с кнопкой помощи
     """
     keyboard = [
-        [InlineKeyboardButton("Связаться с создателем", url="https://t.me/D1S3CT")],
-        [InlineKeyboardButton("Назад", callback_data="back_to_main")]
+        [InlineKeyboardButton("💬 Связаться с создателем", url="https://t.me/D1S3CT")],
+        [InlineKeyboardButton("↩️ Назад", callback_data="back_to_main")]
     ]
     return InlineKeyboardMarkup(keyboard)

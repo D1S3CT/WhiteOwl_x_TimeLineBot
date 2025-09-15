@@ -8,7 +8,6 @@ from telegram.ext import Application, CommandHandler, CallbackQueryHandler, Mess
 from config.settings import TELEGRAM_BOT_TOKEN
 from bot.handlers.welcome_handler import show_welcome_message, show_main_menu
 from bot.handlers.help_handler import show_help_message
-from bot.handlers.master_handler import show_become_master_options
 from bot.handlers.registration_handler import (
     show_registration_benefits,
     start_master_registration_process,
@@ -36,10 +35,9 @@ def setup_handlers(application: Application) -> None:
     # Обработчики callback-запросов главного меню
     application.add_handler(CallbackQueryHandler(show_help_message, pattern="^help$"))
     application.add_handler(CallbackQueryHandler(show_main_menu, pattern="^back_to_main$"))
-    application.add_handler(CallbackQueryHandler(show_become_master_options, pattern="^become_master$"))
+    application.add_handler(CallbackQueryHandler(show_registration_benefits, pattern="^become_master$"))
 
     # Обработчики регистрации мастера
-    application.add_handler(CallbackQueryHandler(show_registration_benefits, pattern="^become_master$"))
     application.add_handler(CallbackQueryHandler(start_master_registration_process, pattern="^start_master_registration$"))
     application.add_handler(CallbackQueryHandler(handle_terms_acceptance, pattern="^accept_terms$"))
     application.add_handler(CallbackQueryHandler(handle_terms_decline, pattern="^decline_terms$"))
